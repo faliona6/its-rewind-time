@@ -7,7 +7,7 @@ using Assets.Game.Scripts;
 public class PropertyReplayer : MonoBehaviour
 {
     // default state is set to record, as Object needs to be recorded before replayed.
-    private Replayable state;
+    private ReplayableState state;
 
     // Controls how often the state of the character is saved.
     // Actions should be saved on the same frame they are performed for maximum accuracy.
@@ -21,11 +21,12 @@ public class PropertyReplayer : MonoBehaviour
         state = new RecordState(this);
     }
 
-    public void SwitchToReplay()
+    public void SwitchToReplay(RecordState record)
     {
         // If there is a rigidbody on the player, it should be set to kinematic
         // player controller components should be moved or removed from this object
         // this object should stop recording actions (shoot, jump) from the player
+        state = new ReplayState(record, this);
     }
 
     // All properties should be loaded/stored on FixedUpdate, as this will result in consistent enough replays

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Game.Scripts
 {
-    class ReplayState : Replayable
+    class ReplayState : ReplayableState
     {
         // should be contructed with a reference to
         // record state.
@@ -17,9 +17,15 @@ namespace Assets.Game.Scripts
             this.replayer = replayer;
         }
 
+        public void OnLoopReset()
+        {
+            // reset all values of player and index of iterator through
+            // replay loop
+        }
+
         public void FixedAction()
         {
-
+            // interpolate between recorded values here.
         }
     }
 }

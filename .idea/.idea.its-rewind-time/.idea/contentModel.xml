@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\John Manard\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\John Manard\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_its-rewind-time.2099446823.00" t="ExcludeRecursive" />
+    <e p="C:\Users\John Manard\Documents\UnityGames\its-rewind-time" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="ExampleFiles" t="Include">
+          <e p="Scripts" t="Include">
+            <e p="SimpleCameraController.cs" t="Include" />
+          </e>
+          <e p="TutorialInfo" t="Include">
+            <e p="Scripts" t="Include">
+              <e p="Editor" t="Include">
+                <e p="ReadmeEditor.cs" t="Include" />
+              </e>
+              <e p="Readme.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Game" t="Include">
+          <e p="Art" t="Include">
+            <e p="Animations" t="Include">
+              <e p="test.txt" t="Include" />
+            </e>
+            <e p="Models" t="Include">
+              <e p="test.txt" t="Include" />
+            </e>
+            <e p="test.txt" t="Include" />
+          </e>
+          <e p="Prefabs" t="Include">
+            <e p="test.txt" t="Include" />
+          </e>
+          <e p="Scenes" t="Include">
+            <e p="test.txt" t="Include" />
+          </e>
+          <e p="Scripts" t="Include">
+            <e p="test.txt" t="Include" />
+          </e>
+        </e>
+        <e p="NaughtyCharacter" t="Include">
+          <e p="Scripts" t="Include">
+            <e p="Animation" t="Include">
+              <e p="InterpolationCurve.cs" t="Include" />
+            </e>
+            <e p="Character.cs" t="Include" />
+            <e p="CharacterAnimator.cs" t="Include" />
+            <e p="Controller.cs" t="Include" />
+            <e p="Helpers" t="Include">
+              <e p="FpsCounter.cs" t="Include" />
+              <e p="TestHelper.cs" t="Include" />
+            </e>
+            <e p="NaughtyCharacter.asmdef" t="Include" />
+            <e p="PlayerCamera.cs" t="Include" />
+            <e p="PlayerController.cs" t="Include" />
+            <e p="PlayerInput.cs" t="Include" />
+            <e p="SpringArm.cs" t="Include" />
+            <e p="Utility" t="Include">
+              <e p="Util.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Shaders" t="Include">
+            <e p="EyeBallsHD.shader" t="Include" />
+            <e p="EyeLash.shader" t="Include" />
+            <e p="SculptedHair.shader" t="Include" />
+            <e p="ToonSkin.shader" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="its-rewind-time.sln" t="IncludeFlat" />
+      <e p="NaughtyCharacter.csproj" t="IncludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

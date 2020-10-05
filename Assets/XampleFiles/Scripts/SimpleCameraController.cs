@@ -5,6 +5,7 @@
 #endif
 
 using UnityEngine;
+/*
 
 namespace UnityTemplateProjects
 {
@@ -179,4 +180,4 @@ namespace UnityTemplateProjects
         }
     }
 
-}
+}*/

@@ -21,12 +21,20 @@ public class PropertyReplayer : MonoBehaviour
         state = new RecordState(this);
     }
 
+    public void OnLoopReset()
+    {
+        state.OnLoopReset();
+    }
+
     public void SwitchToReplay(RecordState record)
     {
         // If there is a rigidbody on the player, it should be set to kinematic
         // player controller components should be moved or removed from this object
         // this object should stop recording actions (shoot, jump) from the player
-        state = new ReplayState(record, this);
+        gameObject.GetComponentInChildren<PlayerMovement>().OnReset();
+        var replay = new ReplayState(record, this);
+        state = replay;
+        FindObjectOfType<LoopReset>().AddToReplays(replay);
     }
 
     // All properties should be loaded/stored on FixedUpdate, as this will result in consistent enough replays

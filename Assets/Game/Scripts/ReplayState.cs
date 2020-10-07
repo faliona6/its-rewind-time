@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Game.Scripts
 {
-    class ReplayState : ReplayableState
+    public class ReplayState : ReplayableState
     {
         // should be contructed with a reference to
         // record state.

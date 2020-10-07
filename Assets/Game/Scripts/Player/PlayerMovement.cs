@@ -101,6 +101,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Hey Fiona, I hope this doesn't cause a merge conflict, this is so
+    // that I can delete the camera on this player and make it kinematic
+    public void OnReset()
+    {
+        Destroy(playerCam.gameObject);
+        GetComponent<Rigidbody>().isKinematic = true;
+        Destroy(this);
+    }
+
     private void StopCrouch()
     {
         transform.localScale = playerScale;

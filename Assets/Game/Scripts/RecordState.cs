@@ -36,6 +36,7 @@ namespace Assets.Game.Scripts
             this.replayer = replayer;
             frameActions = new List<FrameAction>();
             interpVals = new List<InterpVal>();
+            // this class sets itself to the only recorder in the scene
         }
 
         public void OnLoopReset()

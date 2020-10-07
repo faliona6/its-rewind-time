@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Game.Scripts
 {
-    interface ReplayableState
+    public interface ReplayableState
     {
         // either loads or saves the state based on the fixed update loop
         void FixedAction();

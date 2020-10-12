@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Game.Scripts;
 
-public class PropertyReplayer : MonoBehaviour
+public class PropertyReplayer : ResetComponent
 {
     // default state is set to record, as Object needs to be recorded before replayed.
     private ReplayableState state;
@@ -12,16 +12,25 @@ public class PropertyReplayer : MonoBehaviour
     // Controls how often the state of the character is saved.
     // Actions should be saved on the same frame they are performed for maximum accuracy.
     // A higher number results in less accurate results, but better performance.
-    [SerializeField] uint framesPerSave = 10;
+    [SerializeField] int framesPerSave = 10;
+    // players attributes to keep track of (pos and rotation for now.)
+    private Transform pTransform;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         // create initial instance of the state.
         // Can only replay if given reference to a prerecorded object
+        pTransform = GetComponentInChildren<PlayerMovement>().gameObject.transform;
         state = new RecordState(this);
     }
 
-    public void OnLoopReset()
+    public Transform GetOrientation()
+    {
+        return pTransform;
+    }
+
+    public override void OnReset()
     {
         state.OnLoopReset();
     }
@@ -31,10 +40,8 @@ public class PropertyReplayer : MonoBehaviour
         // If there is a rigidbody on the player, it should be set to kinematic
         // player controller components should be moved or removed from this object
         // this object should stop recording actions (shoot, jump) from the player
-        gameObject.GetComponentInChildren<PlayerMovement>().OnReset();
         var replay = new ReplayState(record, this);
         state = replay;
-        FindObjectOfType<LoopReset>().AddToReplays(replay);
     }
 
     // All properties should be loaded/stored on FixedUpdate, as this will result in consistent enough replays
@@ -47,7 +54,7 @@ public class PropertyReplayer : MonoBehaviour
         state?.FixedAction();
     }
 
-    public uint GetFramesPerSave()
+    public int GetFramesPerSave()
     {
         return framesPerSave;
     }

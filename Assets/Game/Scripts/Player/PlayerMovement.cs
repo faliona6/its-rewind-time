@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : ResetComponent
 {
 
     //Assingables
@@ -50,8 +50,9 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         playerScale = transform.localScale;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -103,10 +104,12 @@ public class PlayerMovement : MonoBehaviour
 
     // Hey Fiona, I hope this doesn't cause a merge conflict, this is so
     // that I can delete the camera on this player and make it kinematic
-    public void OnReset()
+    public override void OnReset()
     {
         Destroy(playerCam.gameObject);
-        GetComponent<Rigidbody>().isKinematic = true;
+        var tempRb = GetComponent<Rigidbody>();
+        tempRb.isKinematic = true;
+        tempRb.interpolation = RigidbodyInterpolation.Interpolate;
         Destroy(this);
     }
 

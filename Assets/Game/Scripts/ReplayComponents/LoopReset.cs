@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LoopReset : MonoBehaviour
 {
@@ -16,13 +17,12 @@ public class LoopReset : MonoBehaviour
     // player by the same amount each time.
     [SerializeField] Vector3 respawnOffset;
     [SerializeField] Transform lastRespawn;
-
-    private List<ReplayState> replays;
+    public delegate void Reset();
+    public static event Reset OnResetCalls;
     private GameObject currentPlayer;
 
     void Start()
     {
-        replays = new List<ReplayState>();
         SpawnPlayer();
     }
 
@@ -38,13 +38,8 @@ public class LoopReset : MonoBehaviour
         lastRespawn.position += respawnOffset;
         // SpawnPlayer has to happen after the current recorder is set so that
         // current player points to the correct reference.
-        currentPlayer.GetComponent<PropertyReplayer>().OnLoopReset();
         SpawnPlayer();
-    }
-
-    public void AddToReplays(ReplayState replay)
-    {
-        replays.Add(replay);
+        OnResetCalls?.Invoke();
     }
 
     private void Update()

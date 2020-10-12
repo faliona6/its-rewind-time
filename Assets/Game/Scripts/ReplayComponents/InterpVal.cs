@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Game.Scripts
 {
-    class InterpVal
+    public class InterpVal
     {
         // animation data (abiguously stored currently)
         // position data

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace Assets.Game.Scripts
 {
 
-    struct FrameAction
+    public struct FrameAction
     {
         // Given frame the action(s) take place in
         // This may need to store larger values if rewinds
         // go on for much longer (uint val)
-        uint frame;
+        int frame;
         List<Action> actionsOnFrame;
     }
 
@@ -28,7 +28,7 @@ namespace Assets.Game.Scripts
         private List<InterpVal> interpVals;
 
         // frame counter
-        private ushort fCount = 0;
+        private byte fCount = 0;
 
         public RecordState(PropertyReplayer replayer)
         {
@@ -37,6 +37,16 @@ namespace Assets.Game.Scripts
             frameActions = new List<FrameAction>();
             interpVals = new List<InterpVal>();
             // this class sets itself to the only recorder in the scene
+        }
+
+        public List<FrameAction> GetFrameActions()
+        {
+            return frameActions;
+        }
+
+        public List<InterpVal> GetInterpVals()
+        {
+            return interpVals;
         }
 
         public void OnLoopReset()
@@ -54,8 +64,8 @@ namespace Assets.Game.Scripts
             if((++fCount) % replayer.GetFramesPerSave() == 0)
             {
                 // save the data
-                interpVals.Add(new InterpVal(replayer.gameObject.transform.position,
-                    replayer.gameObject.transform.rotation));
+                interpVals.Add(new InterpVal(replayer.GetOrientation().position,
+                    replayer.GetOrientation().rotation));
             }
         }
 

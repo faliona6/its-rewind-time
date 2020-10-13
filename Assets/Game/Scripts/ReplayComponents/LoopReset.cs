@@ -19,17 +19,26 @@ public class LoopReset : MonoBehaviour
     [SerializeField] Transform lastRespawn;
     public delegate void Reset();
     public static event Reset OnResetCalls;
+    
+    // this can cause errors if spawning too fast because it gets updated in the middle of the method that sets it.
     private GameObject currentPlayer;
+    private List<Transform> _playerTransforms = new List<Transform>();
 
     void Start()
     {
         SpawnPlayer();
     }
 
+    public List<Transform> GetPlayerTransforms()
+    {
+        return _playerTransforms;
+    }
+
     void SpawnPlayer()
     {
         currentPlayer = Instantiate(Player, lastRespawn.position, gameObject.transform.rotation);
         currentPlayer.AddComponent(typeof(PropertyReplayer));
+        _playerTransforms.Add(currentPlayer.transform);
     }
 
     void ResetLoop()

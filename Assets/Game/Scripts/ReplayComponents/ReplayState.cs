@@ -41,7 +41,7 @@ namespace Assets.Game.Scripts
         private void SetProperties()
         {
             replayer.GetOrientation().position = interpVals[fixedIndex].position;
-            replayer.GetOrientation().rotation = interpVals[fixedIndex].rotation;
+            replayer.GetOrientation().localRotation = interpVals[fixedIndex].rotation;
         }
 
         private void InterpolateProperties()
@@ -63,7 +63,7 @@ namespace Assets.Game.Scripts
                 interpVals[fixedIndex].position,
                 interpVals[fixedIndex + 1].position,
                 pct);
-            replayer.GetOrientation().rotation = Quaternion.Lerp(
+            replayer.GetOrientation().localRotation = Quaternion.Lerp(
                 interpVals[fixedIndex].rotation,
                 interpVals[fixedIndex + 1].rotation,
                 pct);

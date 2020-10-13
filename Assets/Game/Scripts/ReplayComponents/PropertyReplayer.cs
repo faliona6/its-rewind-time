@@ -21,7 +21,7 @@ public class PropertyReplayer : ResetComponent
         base.Start();
         // create initial instance of the state.
         // Can only replay if given reference to a prerecorded object
-        pTransform = GetComponentInChildren<PlayerMovement>().gameObject.transform;
+        pTransform = GetComponentInChildren<PlayerMovement>().orientation;
         state = new RecordState(this);
     }
 

@@ -65,7 +65,7 @@ namespace Assets.Game.Scripts
             {
                 // save the data
                 interpVals.Add(new InterpVal(replayer.GetOrientation().position,
-                    replayer.GetOrientation().rotation));
+                    replayer.GetOrientation().localRotation));
             }
         }
 

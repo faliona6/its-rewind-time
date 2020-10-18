@@ -40,8 +40,8 @@ namespace Assets.Game.Scripts
 
         private void SetProperties()
         {
-            replayer.GetOrientation().position = interpVals[fixedIndex].position;
-            replayer.GetOrientation().localRotation = interpVals[fixedIndex].rotation;
+            replayer.GetPosition().position = interpVals[fixedIndex].position;
+            replayer.GetRotation().localRotation = interpVals[fixedIndex].rotation;
         }
 
         private void InterpolateProperties()
@@ -59,11 +59,11 @@ namespace Assets.Game.Scripts
             // interpolate towards target values
             // might need a more general way of getting values, but this is just a prototype for now.
             // have a method that asks for a particular thing to animate
-            replayer.GetOrientation().position = Vector3.Lerp(
+            replayer.GetPosition().position = Vector3.Lerp(
                 interpVals[fixedIndex].position,
                 interpVals[fixedIndex + 1].position,
                 pct);
-            replayer.GetOrientation().localRotation = Quaternion.Lerp(
+            replayer.GetRotation().localRotation = Quaternion.Lerp(
                 interpVals[fixedIndex].rotation,
                 interpVals[fixedIndex + 1].rotation,
                 pct);

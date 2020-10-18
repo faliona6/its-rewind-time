@@ -13,21 +13,30 @@ public class PropertyReplayer : ResetComponent
     // Actions should be saved on the same frame they are performed for maximum accuracy.
     // A higher number results in less accurate results, but better performance.
     [SerializeField] int framesPerSave = 10;
-    // players attributes to keep track of (pos and rotation for now.)
-    private Transform pTransform;
+    // players attributes to keep track of pos
+    private Transform pTransformPosition;
+    // separate gameObject to keep track of rotation
+    private Transform pTransformRotation;
 
     protected override void Start()
     {
         base.Start();
         // create initial instance of the state.
         // Can only replay if given reference to a prerecorded object
-        pTransform = GetComponentInChildren<PlayerMovement>().orientation;
+        var playerMovement = GetComponentInChildren<PlayerMovement>();
+        pTransformPosition = playerMovement.transform;
+        pTransformRotation = playerMovement.orientation;
         state = new RecordState(this);
     }
 
-    public Transform GetOrientation()
+    public Transform GetPosition()
     {
-        return pTransform;
+        return pTransformPosition;
+    }
+
+    public Transform GetRotation()
+    {
+        return pTransformRotation;
     }
 
     public override void OnReset()

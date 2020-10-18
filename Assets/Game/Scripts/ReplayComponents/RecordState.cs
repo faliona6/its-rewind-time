@@ -64,8 +64,8 @@ namespace Assets.Game.Scripts
             if((++fCount) % replayer.GetFramesPerSave() == 0)
             {
                 // save the data
-                interpVals.Add(new InterpVal(replayer.GetOrientation().position,
-                    replayer.GetOrientation().localRotation));
+                interpVals.Add(new InterpVal(replayer.GetPosition().position,
+                    replayer.GetRotation().localRotation));
             }
         }
 

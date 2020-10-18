@@ -21,6 +21,7 @@ public class LoopReset : MonoBehaviour
     public static event Reset OnResetCalls;
     
     // this can cause errors if spawning too fast because it gets updated in the middle of the method that sets it.
+    // turn it into a stack of all players that have not been updated yet :)
     private GameObject currentPlayer;
     private List<Transform> _playerTransforms = new List<Transform>();
 

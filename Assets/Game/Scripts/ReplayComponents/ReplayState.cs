@@ -42,6 +42,7 @@ namespace Assets.Game.Scripts
         {
             replayer.GetPosition().position = interpVals[fixedIndex].position;
             replayer.GetRotation().localRotation = interpVals[fixedIndex].rotation;
+            replayer.GetCamRotation().localRotation = interpVals[fixedIndex].camRotation;
         }
 
         private void InterpolateProperties()
@@ -66,6 +67,10 @@ namespace Assets.Game.Scripts
             replayer.GetRotation().localRotation = Quaternion.Lerp(
                 interpVals[fixedIndex].rotation,
                 interpVals[fixedIndex + 1].rotation,
+                pct);
+            replayer.GetCamRotation().localRotation = Quaternion.Lerp(
+                interpVals[fixedIndex].camRotation,
+                interpVals[fixedIndex + 1].camRotation,
                 pct);
         }
 

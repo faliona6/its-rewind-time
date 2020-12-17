@@ -4,60 +4,55 @@ using UnityEngine;
 
 public class GunManager : MonoBehaviour
 {
-    public Gun gun;
+    private Gun gun;
     private GameObject gunGameObject;
-    public Camera fpsCam;
+    public Transform camOrientation;
     private Transform gunParent;
 
-    [Header("Starting Weapon")]
-    public bool Shotgun; public bool Pistol;
+    public enum CurrentGun
+    {
+        Pistol,
+        Shotgun
+    }
+    public CurrentGun startingGun;
 
     private void Start()
     {
         gunParent = transform;
 
-        // Enable starting gun
-        if (Shotgun)
-            enableGun("Shotgun");
-        else if (Pistol)
-            enableGun("Pistol");
-    }
-
-    void Update()
-    {
-        if (Input.GetButtonDown("Fire"))
+        switch(startingGun)
         {
-            Shoot();
-        }
-        // Pistol
-        if (Input.GetButtonDown("Fire2"))
-        {
-            enableGun("Pistol");
-        }
-        // Shotgun
-        if (Input.GetButtonDown("Fire3"))
-        {
-            enableGun("Shotgun");
+            case CurrentGun.Shotgun:
+                enableGun("Shotgun");
+                break;
+            case CurrentGun.Pistol:
+                enableGun("Pistol");
+                break;
         }
     }
 
     // Shoot function that shoots with any gun
-    private void Shoot()
+    public void Shoot()
     {
-        gun.Shoot();
-        if (gun.gunAnimator.GetBool("isShooting"))
+        // Check if currently shooting from gun Animator
+        if (gun.GunAnimator.GetBool("isShooting"))
             return;
-        gun.gunAnimator.SetTrigger("isShooting");
-        gun.muzzleFlash.Play();
+        // Call shoot from gun interface
+        gun.Shoot();
+        // Set gun animation
+        gun.GunAnimator.SetTrigger("isShooting");
+        gun.MuzzleFlash.Play();
     }
 
     private void enableGun(string name)
     {
+        // Deactivate previous gun
         gunGameObject?.SetActive(false);
-        Debug.Log(name);
         gunGameObject = gunParent.Find(name).gameObject;
+
+        // Activate current gun
         gun = gunGameObject.GetComponent<Gun>();
-        gun.fpsCam = fpsCam;
+        gun.CamOrientation = camOrientation;
         gunGameObject.SetActive(true);
     }
 }

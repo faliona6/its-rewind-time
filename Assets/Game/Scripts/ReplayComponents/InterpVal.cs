@@ -22,10 +22,12 @@ namespace Assets.Game.Scripts
         // public, but whatever for now.
         public Vector3 position;
         public Quaternion rotation;
-        public InterpVal(Vector3 position, Quaternion rotation)
+        public Quaternion camRotation;
+        public InterpVal(Vector3 position, Quaternion rotation, Quaternion camRotation)
         {
             this.position = position;
             this.rotation = rotation;
+            this.camRotation = camRotation;
         }
     }
 }

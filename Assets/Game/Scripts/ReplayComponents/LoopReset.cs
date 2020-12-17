@@ -35,14 +35,24 @@ public class LoopReset : MonoBehaviour
         return _playerTransforms;
     }
 
-    void SpawnPlayer()
+    public int GetNumClones()
+    {
+        return _playerTransforms.Count;
+    }
+
+    public GameObject getCurPlayer()
+    {
+        return currentPlayer;
+    }
+
+    public void SpawnPlayer()
     {
         currentPlayer = Instantiate(Player, lastRespawn.position, gameObject.transform.rotation);
         currentPlayer.AddComponent(typeof(PropertyReplayer));
         _playerTransforms.Add(currentPlayer.transform);
     }
 
-    void ResetLoop()
+    public void ResetLoop()
     {
         // need some way of keeping track of all active players.
         lastRespawn.position += respawnOffset;

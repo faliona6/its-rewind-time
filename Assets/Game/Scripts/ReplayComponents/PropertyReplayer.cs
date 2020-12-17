@@ -12,11 +12,13 @@ public class PropertyReplayer : ResetComponent
     // Controls how often the state of the character is saved.
     // Actions should be saved on the same frame they are performed for maximum accuracy.
     // A higher number results in less accurate results, but better performance.
-    [SerializeField] int framesPerSave = 10;
+    [SerializeField] int framesPerSave = 1;
     // players attributes to keep track of pos
     private Transform pTransformPosition;
-    // separate gameObject to keep track of rotation
+    // separate gameObject to keep track of rotation (along y axis)
     private Transform pTransformRotation;
+    // gameObject to keep track of camera rotation (x,y,z axes)
+    private Transform pCamRotation;
 
     protected override void Start()
     {
@@ -26,6 +28,7 @@ public class PropertyReplayer : ResetComponent
         var playerMovement = GetComponentInChildren<PlayerMovement>();
         pTransformPosition = playerMovement.transform;
         pTransformRotation = playerMovement.orientation;
+        pCamRotation = playerMovement.playerCam;
         state = new RecordState(this);
     }
 
@@ -37,6 +40,10 @@ public class PropertyReplayer : ResetComponent
     public Transform GetRotation()
     {
         return pTransformRotation;
+    }
+    public Transform GetCamRotation()
+    {
+        return pCamRotation;
     }
 
     public override void OnReset()

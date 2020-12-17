@@ -7,6 +7,7 @@ public class PlayerMovement : ResetComponent
     //Assingables
     public Transform playerCam;
     public Transform orientation;
+    public Transform cameras;
 
     //Other
     private Rigidbody rb;
@@ -54,8 +55,10 @@ public class PlayerMovement : ResetComponent
     {
         base.Start();
         playerScale = transform.localScale;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (LevelManager.Instance.getIsRunning()) { 
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
 
@@ -66,6 +69,9 @@ public class PlayerMovement : ResetComponent
 
     private void Update()
     {
+        if (!LevelManager.Instance.getIsRunning())
+            return;
+
         MyInput();
         Look();
     }
@@ -106,11 +112,21 @@ public class PlayerMovement : ResetComponent
     // that I can delete the camera on this player and make it kinematic
     public override void OnReset()
     {
-        Destroy(playerCam.gameObject);
+        Destroy(cameras.gameObject);
         var tempRb = GetComponent<Rigidbody>();
         tempRb.isKinematic = true;
         tempRb.interpolation = RigidbodyInterpolation.Interpolate;
+        ChangeLayersAndTagRecursively(transform.parent, "Clone", "Clone");
         Destroy(this);
+    }
+
+    private void ChangeLayersAndTagRecursively(Transform transform, string layerName, string tagName)
+    {
+        foreach(Transform child in transform) {
+            child.gameObject.layer = LayerMask.NameToLayer(layerName);
+            child.tag = tagName;
+            ChangeLayersAndTagRecursively(child, layerName, tagName);
+        }
     }
 
     private void StopCrouch()

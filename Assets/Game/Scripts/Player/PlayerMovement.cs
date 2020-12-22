@@ -41,6 +41,7 @@ public class PlayerMovement : ResetComponent
     //Input
     float x, y;
     bool jumping, sprinting, crouching;
+    private bool canMove = true;
 
     //Sliding
     private Vector3 normalVector = Vector3.up;
@@ -61,6 +62,12 @@ public class PlayerMovement : ResetComponent
         }
     }
 
+    public void KillPlayer()
+    {
+        // this is just to disable the player's controller after they die.
+        canMove = false;
+    }
+
 
     private void FixedUpdate()
     {
@@ -72,8 +79,17 @@ public class PlayerMovement : ResetComponent
         if (!LevelManager.Instance.getIsRunning())
             return;
 
-        MyInput();
-        Look();
+        if (canMove)
+        {
+            MyInput();
+            Look();
+        }
+        else
+        {
+            jumping = false;
+            crouching = false;
+        }
+        
     }
 
     /// <summary>
@@ -97,8 +113,11 @@ public class PlayerMovement : ResetComponent
 
     private void StartCrouch()
     {
-        transform.localScale = crouchScale;
-        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        var transform1 = transform;
+        transform1.localScale = crouchScale;
+        var position = transform1.position;
+        position = new Vector3(position.x, position.y - 0.5f, position.z);
+        transform1.position = position;
         if (rb.velocity.magnitude > 0.5f)
         {
             if (grounded)
@@ -120,9 +139,9 @@ public class PlayerMovement : ResetComponent
         Destroy(this);
     }
 
-    private void ChangeLayersAndTagRecursively(Transform transform, string layerName, string tagName)
+    private void ChangeLayersAndTagRecursively(Transform playerTransform, string layerName, string tagName)
     {
-        foreach(Transform child in transform) {
+        foreach(Transform child in playerTransform) {
             child.gameObject.layer = LayerMask.NameToLayer(layerName);
             child.tag = tagName;
             ChangeLayersAndTagRecursively(child, layerName, tagName);
@@ -131,14 +150,15 @@ public class PlayerMovement : ResetComponent
 
     private void StopCrouch()
     {
-        transform.localScale = playerScale;
-        transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        var transform1 = transform;
+        transform1.localScale = playerScale;
+        transform1.position = new Vector3(transform1.position.x, transform1.position.y + 0.5f, transform1.position.z);
     }
 
     private void Movement()
     {
         //Extra gravity
-        rb.AddForce(Vector3.down * Time.deltaTime * 10);
+        rb.AddForce(Vector3.down * (Time.deltaTime * 10));
 
         //Find actual velocity relative to where player is looking
         Vector2 mag = FindVelRelativeToLook();
@@ -156,7 +176,7 @@ public class PlayerMovement : ResetComponent
         //If sliding down a ramp, add force down so player stays grounded and also builds speed
         if (crouching && grounded && readyToJump)
         {
-            rb.AddForce(Vector3.down * Time.deltaTime * 3000);
+            rb.AddForce(Vector3.down * (Time.deltaTime * 3000));
             return;
         }
 
@@ -180,8 +200,8 @@ public class PlayerMovement : ResetComponent
         if (grounded && crouching) multiplierV = 0f;
 
         //Apply forces to move player
-        rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV);
-        rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime * multiplier);
+        rb.AddForce(orientation.transform.forward * (y * moveSpeed * Time.deltaTime * multiplier * multiplierV));
+        rb.AddForce(orientation.transform.right * (x * moveSpeed * Time.deltaTime * multiplier));
     }
 
     private void Jump()
@@ -191,8 +211,8 @@ public class PlayerMovement : ResetComponent
             readyToJump = false;
 
             //Add jump forces
-            rb.AddForce(Vector2.up * jumpForce * 1.5f);
-            rb.AddForce(normalVector * jumpForce * 0.5f);
+            rb.AddForce(Vector2.up * (jumpForce * 1.5f));
+            rb.AddForce(normalVector * (jumpForce * 0.5f));
 
             //If jumping while falling, reset y velocity.
             Vector3 vel = rb.velocity;
@@ -236,26 +256,28 @@ public class PlayerMovement : ResetComponent
         //Slow down sliding
         if (crouching)
         {
-            rb.AddForce(moveSpeed * Time.deltaTime * -rb.velocity.normalized * slideCounterMovement);
+            rb.AddForce(-rb.velocity.normalized * (moveSpeed * Time.deltaTime * slideCounterMovement));
             return;
         }
 
         //Counter movement
         if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0))
         {
-            rb.AddForce(moveSpeed * orientation.transform.right * Time.deltaTime * -mag.x * counterMovement);
+            rb.AddForce(orientation.transform.right * (moveSpeed * Time.deltaTime * -mag.x * counterMovement));
         }
         if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0))
         {
-            rb.AddForce(moveSpeed * orientation.transform.forward * Time.deltaTime * -mag.y * counterMovement);
+            rb.AddForce(orientation.transform.forward * (moveSpeed * Time.deltaTime * -mag.y * counterMovement));
         }
 
         //Limit diagonal running. This will also cause a full stop if sliding fast and un-crouching, so not optimal.
         if (Mathf.Sqrt((Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2))) > maxSpeed)
         {
-            float fallspeed = rb.velocity.y;
-            Vector3 n = rb.velocity.normalized * maxSpeed;
-            rb.velocity = new Vector3(n.x, fallspeed, n.z);
+            var velocity = rb.velocity;
+            float fallspeed = velocity.y;
+            Vector3 n = velocity.normalized * maxSpeed;
+            velocity = new Vector3(n.x, fallspeed, n.z);
+            rb.velocity = velocity;
         }
     }
 
@@ -267,7 +289,8 @@ public class PlayerMovement : ResetComponent
     public Vector2 FindVelRelativeToLook()
     {
         float lookAngle = orientation.transform.eulerAngles.y;
-        float moveAngle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg;
+        var velocity = rb.velocity;
+        float moveAngle = Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg;
 
         float u = Mathf.DeltaAngle(lookAngle, moveAngle);
         float v = 90 - u;

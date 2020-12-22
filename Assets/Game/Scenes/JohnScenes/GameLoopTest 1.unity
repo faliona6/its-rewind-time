@@ -1987,6 +1987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loopReset: {fileID: 2144310923}
+  resetDelay: 1.5
   numClones: 5
   timePerClone: 15
 --- !u!1 &1032232345

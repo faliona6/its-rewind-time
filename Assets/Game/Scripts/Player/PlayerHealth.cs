@@ -18,7 +18,8 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         curHealth = startingHealth;
-        curPlayerDeathEvent += () => { LevelManager.Instance.onPlayerDeath(); };
+        curPlayerDeathEvent += GetComponent<PlayerMovement>().KillPlayer;
+        curPlayerDeathEvent += () => { StartCoroutine(LevelManager.Instance.ResetLevel()); };
     }
 
     private void Update()
@@ -32,6 +33,8 @@ public class PlayerHealth : MonoBehaviour
     public void changeHealth(int deltaHealth)
     {
         curHealth += deltaHealth;
+        // make this code an event that happens every time health is changed for more modular code.
+        // curplayerhealthevent()
         if (curHealth <= 0)
         {
             if (CompareTag("Player")) // If curPlayer is active

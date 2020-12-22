@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
 
 
     [SerializeField] LoopReset loopReset;
+    [SerializeField] float resetDelay = 2.0f;
     public int numClones;
     public float timePerClone;
     public event Action levelEndEvent;
@@ -62,17 +63,16 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isRunning)
-            return;
-        time -= Time.deltaTime;
-        if (time <= 0)
-        {
-            resetLoop();
-        }
+        
     }
 
-    public void onPlayerDeath()
+    /// <summary>
+    /// Made it an IEnumerator so that players don't freeze in midair
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator ResetLevel()
     {
+        yield return new WaitForSeconds(resetDelay);
         resetLoop();
     }
 

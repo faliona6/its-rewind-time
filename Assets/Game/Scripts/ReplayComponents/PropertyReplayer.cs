@@ -12,7 +12,7 @@ public class PropertyReplayer : ResetComponent
     // Controls how often the state of the character is saved.
     // Actions should be saved on the same frame they are performed for maximum accuracy.
     // A higher number results in less accurate results, but better performance.
-    [SerializeField] int framesPerSave = 1;
+    [SerializeField] int framesPerSave = 12;
     // players attributes to keep track of pos
     private Transform pTransformPosition;
     // separate gameObject to keep track of rotation (along y axis)

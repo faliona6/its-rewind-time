@@ -24,6 +24,9 @@ public class LevelManager : MonoBehaviour
             Destroy(this.gameObject);
         else
             _instance = this;
+        
+        // make sure you manually destroy this and the loopReset before changing level.
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -44,12 +47,12 @@ public class LevelManager : MonoBehaviour
 
     public int getNumRemainingClones()
     {
-        return numClones - loopReset.GetNumClones();
+        return numClones - loopReset.NumClones;
     }
 
     public GameObject getCurPlayer()
     {
-        return loopReset.getCurPlayer();
+        return loopReset.CurrentPlayer;
     }
 
     public bool getIsRunning()
@@ -85,7 +88,7 @@ public class LevelManager : MonoBehaviour
         time = timePerClone;
 
         // End level if we run out of clones
-        if (loopReset.GetNumClones() > numClones)
+        if (loopReset.NumClones > numClones)
             endLevel();
     }
 

@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        LevelManager.Instance.levelEndEvent += endScreen;
+        LevelManager.Instance.LevelEndEvent += endScreen;
     }
 
     private void endScreen()

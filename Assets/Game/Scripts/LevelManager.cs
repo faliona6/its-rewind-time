@@ -10,11 +10,11 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get { return _instance; } }
 
 
-    [SerializeField] LoopReset loopReset;
+    private LoopReset loopReset = default;
     [SerializeField] float resetDelay = 2.0f;
     public int numClones;
     public float timePerClone;
-    public event Action levelEndEvent;
+    public event Action LevelEndEvent;
     private bool isRunning = true;
 
     private float time;     // Time since level has started
@@ -33,6 +33,7 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         time = timePerClone;
+        loopReset = GetComponent<LoopReset>();
     }
 
     // Getters
@@ -94,7 +95,7 @@ public class LevelManager : MonoBehaviour
 
     private void endLevel()
     {
-        levelEndEvent?.Invoke();
+        LevelEndEvent?.Invoke();
         isRunning = false;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;

@@ -98,7 +98,7 @@ public class LoopReset : MonoBehaviour
         // most efficient way to manage this because players are set to not destroy on scene load.
         foreach (var player in _playerTransforms)
         {
-            Destroy(player);
+            Destroy(player.gameObject);
         }
 
         _instance = null;

@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2356,6 +2356,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2074569176782489754, guid: d266dc5f9a8d01d49b3103f2f93642af,
+        type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 7115607737922844349, guid: 3a9302ec558743245a14982ecb43f9a5,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d266dc5f9a8d01d49b3103f2f93642af, type: 3}
 --- !u!1001 &2768704421456248557
@@ -2424,17 +2430,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2768704422755988547, guid: 123e0d08f9f161c488df6f66e4d037a7,
-        type: 3}
-      propertyPath: Player
-      value: 
-      objectReference: {fileID: 7115607737922844349, guid: 3a9302ec558743245a14982ecb43f9a5,
-        type: 3}
-    - target: {fileID: 2768704422755988547, guid: 123e0d08f9f161c488df6f66e4d037a7,
-        type: 3}
-      propertyPath: respawnOffset.z
-      value: -3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 123e0d08f9f161c488df6f66e4d037a7, type: 3}

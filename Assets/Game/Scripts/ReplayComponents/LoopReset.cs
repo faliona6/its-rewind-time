@@ -54,7 +54,7 @@ public class LoopReset : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
     
-    private static LoopReset Instance
+    public static LoopReset Instance
     {
         get { return _instance; }
     }

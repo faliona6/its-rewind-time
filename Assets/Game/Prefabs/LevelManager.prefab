@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2512cf889a2a242489c6858fce7f7d12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1623976817009083764, guid: fe612e6c4bda56049942c597020ddbe6, type: 3}
+  Player: {fileID: 7115607737922844349, guid: 3a9302ec558743245a14982ecb43f9a5, type: 3}
   respawnOffset: {x: 0, y: 0, z: 0}
   lastRespawn: {fileID: 1842638136499066917}
 --- !u!1 &494246454180121694

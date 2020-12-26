@@ -136,6 +136,7 @@ public class PlayerMovement : ResetComponent
         tempRb.isKinematic = true;
         tempRb.interpolation = RigidbodyInterpolation.Interpolate;
         ChangeLayersAndTagRecursively(transform.parent, "Clone", "Clone");
+        // keep the layer of the hat so that the player can jump on it.
         Destroy(this);
     }
 

@@ -8,6 +8,9 @@ public class PlayerMovement : ResetComponent
     public Transform playerCam;
     public Transform orientation;
     public Transform cameras;
+    
+    // used for jumping on clones
+    [SerializeField] private Transform feetPosition;
 
     //Other
     private Rigidbody rb;
@@ -90,6 +93,34 @@ public class PlayerMovement : ResetComponent
             crouching = false;
         }
         
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        // Check if the player stepped on a platform, if so, make the platform its parent
+        PlatformCheck(other.collider);
+    }
+
+    private void PlatformCheck(Collider other)
+    {
+        if (other.CompareTag("Clone"))
+        {
+            transform.parent.parent = other.transform;
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        // unparent the player from the platform if it leaves it
+        PlatformExitCheck(other.collider);
+    }
+
+    private void PlatformExitCheck(Collider other)
+    {
+        if (other.CompareTag("Clone"))
+        {
+            transform.parent.parent = null;
+        }
     }
 
     /// <summary>
@@ -346,6 +377,15 @@ public class PlayerMovement : ResetComponent
     private void StopGrounded()
     {
         grounded = false;
+    }
+
+    /// Used for getting the y position of feet for comparing with clones.
+    public float FeetYPos
+    {
+        get
+        {
+            return feetPosition.transform.position.y;
+        }
     }
 
 }

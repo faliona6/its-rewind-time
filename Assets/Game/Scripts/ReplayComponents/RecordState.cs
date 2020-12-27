@@ -21,7 +21,7 @@ namespace Assets.Game.Scripts
         private PropertyReplayer replayer;
         // method calls on the player (shoot, jump)
         // replicated exactly by the frame unlike properties
-        private List<FrameAction> frameActions;
+        private List<FrameAction> playerActions;
 
         // storage of all non-frame-specific attributes
         // (position/velocity/animstate) that can be safely approximated
@@ -34,20 +34,14 @@ namespace Assets.Game.Scripts
         {
             // back reference to the replayer object
             this.replayer = replayer;
-            frameActions = new List<FrameAction>();
+            playerActions = new List<FrameAction>();
             interpVals = new List<InterpVal>();
             // this class sets itself to the only recorder in the scene
         }
+        
+        public List<FrameAction> PlayerActions => playerActions;
 
-        public List<FrameAction> GetFrameActions()
-        {
-            return frameActions;
-        }
-
-        public List<InterpVal> GetInterpVals()
-        {
-            return interpVals;
-        }
+        public List<InterpVal> InterpVals => interpVals;
 
         public void OnLoopReset()
         {
@@ -60,16 +54,12 @@ namespace Assets.Game.Scripts
         // and saves it into 
         private void SaveState()
         {
-            // if it has been a full frames per save since last save
-            if((++fCount) % replayer.GetFramesPerSave() == 0)
-            {
-                // save the data
-                interpVals.Add(new InterpVal(
-                    replayer.GetPosition().position,
-                    replayer.GetRotation().localRotation,
-                    replayer.GetCamRotation().localRotation
-                ));
-            }
+            // save the data every frame
+            interpVals.Add(new InterpVal(
+                replayer.GetPositionTransform().position,
+                replayer.GetRotationTransform().localRotation,
+                replayer.GetCamTransform().localRotation
+            ));
         }
 
         // store the desired properties of the player

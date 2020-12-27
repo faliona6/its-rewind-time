@@ -8,12 +8,7 @@ public class PropertyReplayer : ResetComponent
 {
     // default state is set to record, as Object needs to be recorded before replayed.
     private ReplayableState state;
-
-    // Controls how often the state of the character is saved.
-    // Actions should be saved on the same frame they are performed for maximum accuracy.
-    // A higher number results in less accurate results, but better performance.
-    [SerializeField] int framesPerSave = 12;
-    // players attributes to keep track of pos
+    // Class will currently save every physics update.
     private Transform pTransformPosition;
     // separate gameObject to keep track of rotation (along y axis)
     private Transform pTransformRotation;
@@ -32,16 +27,16 @@ public class PropertyReplayer : ResetComponent
         state = new RecordState(this);
     }
 
-    public Transform GetPosition()
+    public Transform GetPositionTransform()
     {
         return pTransformPosition;
     }
 
-    public Transform GetRotation()
+    public Transform GetRotationTransform()
     {
         return pTransformRotation;
     }
-    public Transform GetCamRotation()
+    public Transform GetCamTransform()
     {
         return pCamRotation;
     }
@@ -68,10 +63,5 @@ public class PropertyReplayer : ResetComponent
         // If this script is in record state, we need some way of subscribing to
         // the method calls from the main player script.
         state?.FixedAction();
-    }
-
-    public int GetFramesPerSave()
-    {
-        return framesPerSave;
     }
 }

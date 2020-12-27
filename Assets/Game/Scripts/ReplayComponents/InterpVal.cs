@@ -20,13 +20,13 @@ namespace Assets.Game.Scripts
         // if we want better security or something to happen
         // when we mutate these variables, these shouldn't be
         // public, but whatever for now.
-        public Vector3 position;
-        public Quaternion rotation;
+        public Vector3 localPosition;
+        public Quaternion localRotation;
         public Quaternion camRotation;
         public InterpVal(Vector3 position, Quaternion rotation, Quaternion camRotation)
         {
-            this.position = position;
-            this.rotation = rotation;
+            this.localPosition = position;
+            this.localRotation = rotation;
             this.camRotation = camRotation;
         }
     }

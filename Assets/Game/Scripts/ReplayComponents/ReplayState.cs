@@ -14,19 +14,18 @@ namespace Assets.Game.Scripts
         // replayer is referenced so clones can be modified
         private PropertyReplayer replayer;
         private List<InterpVal> interpVals;
-        private List<FrameAction> frameActions;
+        private List<FrameAction> actions;
         // amount of fixedupdates total since beginning of replay
         private int fixedCount = 0;
         // curent index of interpVals the replayer is on
-        private int fixedIndex = 0;
         // last index in frameActions that was replayed, used for O(1) searching
         private int lastActionIndex = 0;
 
         public ReplayState(RecordState recording, PropertyReplayer replayer)
         {
             this.replayer = replayer;
-            interpVals = recording.GetInterpVals();
-            frameActions = recording.GetFrameActions();
+            interpVals = recording.InterpVals;
+            actions = recording.PlayerActions;
         }
 
         public void OnLoopReset()
@@ -34,44 +33,29 @@ namespace Assets.Game.Scripts
             // reset all values of player and index of iterator through
             // replay loop
             // Note: need to think of a more abstract way of setting/getting values from structures/animating properties
-            fixedIndex = fixedCount = 0;
+            fixedCount = 0;
             SetProperties();
         }
 
         private void SetProperties()
         {
-            replayer.GetPosition().position = interpVals[fixedIndex].position;
-            replayer.GetRotation().localRotation = interpVals[fixedIndex].rotation;
-            replayer.GetCamRotation().localRotation = interpVals[fixedIndex].camRotation;
+            replayer.GetPositionTransform().localPosition = interpVals[fixedCount].localPosition;
+            replayer.GetRotationTransform().localRotation = interpVals[fixedCount].localRotation;
+            replayer.GetCamTransform().localRotation = interpVals[fixedCount].camRotation;
         }
 
         private void InterpolateProperties()
         {
             // stop uneccessary calculations because this will be called a lot
-            if (fixedIndex >= (interpVals.Count - 3))
+            if (fixedCount >= (interpVals.Count - 3))
                 return;
             fixedCount++;
-            int pctThroughUpdate = (fixedCount % replayer.GetFramesPerSave());
-            if (pctThroughUpdate == 0)
-                fixedIndex++;
-            // get percentage to lerp this frame by
-            // remove method calls if it is slow here
-            float pct = ((float)pctThroughUpdate) / replayer.GetFramesPerSave();
-            // interpolate towards target values
+            // replay the data every physics update
             // might need a more general way of getting values, but this is just a prototype for now.
             // have a method that asks for a particular thing to animate
-            replayer.GetPosition().position = Vector3.Lerp(
-                interpVals[fixedIndex].position,
-                interpVals[fixedIndex + 1].position,
-                pct);
-            replayer.GetRotation().localRotation = Quaternion.Lerp(
-                interpVals[fixedIndex].rotation,
-                interpVals[fixedIndex + 1].rotation,
-                pct);
-            replayer.GetCamRotation().localRotation = Quaternion.Lerp(
-                interpVals[fixedIndex].camRotation,
-                interpVals[fixedIndex + 1].camRotation,
-                pct);
+            replayer.GetPositionTransform().position = interpVals[fixedCount].localPosition;
+            replayer.GetRotationTransform().localRotation = interpVals[fixedCount].localRotation;
+            replayer.GetCamTransform().localRotation = interpVals[fixedCount].camRotation;
         }
 
         public void FixedAction()
